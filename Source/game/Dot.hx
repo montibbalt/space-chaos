@@ -38,9 +38,10 @@ class Dot extends Sprite {
 
     public function update():Void {
         graphics.clear();
-        graphics.lineStyle(1, 0, 100);
-        graphics.moveTo(this.x, this.y);
-        graphics.lineTo(mouseX, mouseY);
+        graphics.lineStyle(1, 0xFFFFFF, 100);
+        graphics.moveTo(0, 0);
+        graphics.lineTo(dx*15, dy*15);
+        //graphics.lineTo(dx*60, dy*60);
     }
 
     private function generateRandomSpawnPosition():Void {

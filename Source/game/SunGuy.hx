@@ -11,13 +11,15 @@ import flash.events.TimerEvent;
 
     public var Added:Bool = true;
     public var completed:Bool = false;
+    public var asset:MovieClip;
 
     private var halfWidth:Float;
 
     public function new(aSunMan:SunManager):Void {
         super();
         pSunMan = aSunMan;
-        this.addChild(Assets.getMovieClip('fl-lib:Game.SunGuy'));
+        asset = Assets.getMovieClip('fl-lib:Game.SunGuy');
+        this.addChild(asset);
         this.addEventListener(Event.ADDED_TO_STAGE, init);
     }
 
@@ -36,7 +38,7 @@ import flash.events.TimerEvent;
 
     public function moveIn(anEvent:Event):Void {
         if (this.x > 500) {
-            this.x -= 6.1;
+            this.x -= 6.1 / 2;
         } else {
             var warning = pSunMan.pDocClass.gameContainer.getChildByName('sunWarning');
             if(warning != null)
@@ -46,13 +48,13 @@ import flash.events.TimerEvent;
 
     public function moveOut(anEvent:Event):Void {
         if (this.x < 550 + halfWidth) {
-            this.x += 6.1;
+            this.x += 6.1 / 2;
         }
-        Log.error('fix instance name access');
-        // if(this.currentFrame == 120 && this.x > this.x < 550 + halfWidth)
-        // {
-        //	trace("wat");
-        //	pSunMan.killSun();
-        // }
+         //if(this.currentFrame == 120 && this.x > this.x < 550 + halfWidth)
+         if(this.asset.currentFrame == 120)
+         {
+        	trace("wat");
+        	pSunMan.killSun();
+         }
     }
 }

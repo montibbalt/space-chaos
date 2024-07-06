@@ -12,6 +12,8 @@ class Main extends Sprite {
         docInstance.gotoAndStop('Start');
         var test = new GameApp(docInstance);
         this.addChild(test);
+        var scale = (this.stage.stageHeight / this.height);
+        this.scaleX = this.scaleY = scale;
         this.x = (this.stage.stageWidth / 2) - (this.width / 2);
         this.y = (this.stage.stageHeight / 2) - (this.height / 2);
         this.stage.color = 0x000000;

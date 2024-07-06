@@ -10,12 +10,15 @@ import flash.events.Event;
     private var deltaPoint:Point = new Point();
     private var rads:Float;
     private var pDot:Dot;
+    private var asset:MovieClip;
 
     public function new(aDot:Dot):Void {
         super();
         pDot = aDot;
         this.alpha = 0;
-        this.addChild(Assets.getMovieClip('fl-lib:Game.TrackingArrow'));
+        this.asset = Assets.getMovieClip('fl-lib:Game.TrackingArrow');
+        this.asset.gotoAndPlay(1);
+        this.addChild(asset);
         this.addEventListener(Event.ENTER_FRAME, update);
     }
 

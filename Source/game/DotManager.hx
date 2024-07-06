@@ -1,5 +1,6 @@
 ﻿package game;
 
+import lime.utils.Log;
 import flash.display.MovieClip;
 import flash.events.*;
 import openfl.Lib.getTimer;
@@ -15,7 +16,7 @@ class DotManager extends MovieClip {
     public var particleCount(get, null):Int; // = INITCOUNT;
 
     public var ppm(get, null):Float = 200;
-    public var speed(get, null):Float = 1.6 * 0.00028; ///(60*60);
+    public var speed(get, null):Float = 1.6 * 0.00028 / 2; ///(60*60);
 
     private var adjustedSpeed:Float; // = speed * ppm;
 
@@ -48,6 +49,7 @@ class DotManager extends MovieClip {
             // I don't like using the new thing here but it won't work otherwise?
             var temp:Dot = new Dot(this);
             var temp2:TrackingArrow = new TrackingArrow(temp);
+            temp2.alpha = 1.0;
             pDocClass.gameContainer.addChildAt(temp, 2);
             pDocClass.gameContainer.addChildAt(temp2, 1);
 
@@ -65,8 +67,8 @@ class DotManager extends MovieClip {
         while (++i < particleCount) {
             if (!pDocClass.GameOver) {
                 var temp:Dot = dotsArray[i];
-                dx = temp.x - pDocClass.gameContainer.stage.mouseX;
-                dy = temp.y - pDocClass.gameContainer.stage.mouseY;
+                dx = temp.x - pDocClass.gameContainer/*.stage.*/.mouseX;
+                dy = temp.y - pDocClass.gameContainer/*.stage.*/.mouseY;
 
                 angle = Math.atan2(dy, dx);
                 /*var absAng:Float = angle > 0.0 ? angle : -angle;
@@ -78,6 +80,7 @@ class DotManager extends MovieClip {
 
                 temp.x += temp.dx;
                 temp.y += temp.dy;
+                //temp.update();
 
                 temp.rotation += temp.rotSpeed;
 
@@ -90,12 +93,12 @@ class DotManager extends MovieClip {
 
                 if (checkIfOffStage(temp)) {
                     if (arrowsArray[i].alpha < 1) {
-                        arrowsArray[i].alpha += .125;
+                        arrowsArray[i].alpha += .125 / 2;
                     }
                     temp.visible = false; // nice performance boost
                 } else {
                     if (arrowsArray[i].alpha > 0) {
-                        arrowsArray[i].alpha -= .125;
+                        arrowsArray[i].alpha -= .125 / 2;
                     }
                     temp.visible = true;
                 }
@@ -111,6 +114,9 @@ class DotManager extends MovieClip {
     }
 
     public function KillAll():Void {
+        this.removeEventListener(Event.ENTER_FRAME, update);
+        pDocClass.gameContainer.gotoAndStop("GameOver");
+
         var gameMan = cast(this.parent, GameManager);
         gameMan.scoreTimer.stop();
         gameMan.EndGame();
@@ -126,9 +132,6 @@ class DotManager extends MovieClip {
             pDocClass.gameContainer.removeChild(arrowsArray[0]);
             arrowsArray.splice(0, 1);
         }
-
-        this.removeEventListener(Event.ENTER_FRAME, update);
-        pDocClass.gameContainer.gotoAndStop("GameOver");
     }
 
     public function checkIfOffStage(dot:Dot):Bool {

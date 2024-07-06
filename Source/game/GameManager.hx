@@ -73,17 +73,18 @@ class GameManager extends MovieClip {
             trace(gameContainer.getChildAt(i).printDO());
         }
 
-        //gameContainer.getChildByName('playBtn').addEventListener(MouseEvent.MOUSE_DOWN, newGame);
-        //cast(gameContainer.getChildByName('scoreBoxF'), TextField).text = '$score';
-        //cast(gameContainer.getChildByName('dotCountBoxF'), TextField).text = DotMan.particleCount + " ROCKS";
+        gameContainer.getChildByName('playBtn').addEventListener(MouseEvent.MOUSE_DOWN, newGame);
+        cast(gameContainer.getChildByName('scoreBoxF'), TextField).text = '$score';
+        cast(gameContainer.getChildByName('dotCountBoxF'), TextField).text = DotMan.particleCount + " ROCKS";
     }
 
     public function newGame(anEvent:MouseEvent):Void {
-        DotMan = new DotManager();
-        SunMan = new SunManager(pDocClass);
-        seconds = score = 0;
+        //DotMan = new DotManager();
+        //SunMan = new SunManager(pDocClass);
         gameContainer.gotoAndPlay("Gameplay");
+        seconds = score = 0;
         pDocClass.GameOver = false;
+        init_Game(pDocClass, gameContainer);
     }
 
     public function get_gamePlayer() {

@@ -18,7 +18,7 @@ import flash.ui.Mouse;
 
     public function update(anEvent:Event):Void {
         Mouse.hide();
-        this.x = stage.mouseX;
-        this.y = stage.mouseY;
+        this.x = this.parent.mouseX;
+        this.y = this.parent.mouseY;
     }
 }

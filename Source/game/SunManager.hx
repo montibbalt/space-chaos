@@ -44,7 +44,8 @@ class SunManager extends MovieClip {
             // added = true;
         } else {}
 
-        var sunWarning = pDocClass.gameContainer.getChildByName('sunWarning');
+        var sunWarning = cast(pDocClass.gameContainer.getChildByName('sunWarning'), MovieClip);
+        sunWarning.play();
         sunWarning.visible = !sunWarning.visible;
     }
 
@@ -53,7 +54,7 @@ class SunManager extends MovieClip {
         sun.addEventListener(Event.ENTER_FRAME, sun.moveIn);
         sun.addEventListener(Event.ENTER_FRAME, sun.update);
         sun.removeEventListener(Event.ENTER_FRAME, sun.moveOut);
-        sun.gotoAndPlay("rollin");
+        sun.asset.gotoAndPlay("rollin");
 
         sunWarnTimer.removeEventListener(TimerEvent.TIMER, toggleSunWarning);
 
@@ -66,10 +67,11 @@ class SunManager extends MovieClip {
 
     public function removeSun(anEvent:TimerEvent):Void {
         // added = false;
+        Log.error('removeSun');
         sun.removeEventListener(Event.ENTER_FRAME, sun.moveIn);
         sun.removeEventListener(Event.ENTER_FRAME, sun.update);
         sun.addEventListener(Event.ENTER_FRAME, sun.moveOut);
-        sun.gotoAndPlay("rollout");
+        sun.asset.gotoAndPlay("rollout");
         var time:Float = (Math.round((Math.random() * (maxTime - minTime)) + minTime)) * 1000;
         sunWarnTimer = new Timer(time, 1);
         sunWarnTimer.addEventListener(TimerEvent.TIMER, toggleSunWarning);
