@@ -8,7 +8,7 @@ import flash.events.MouseEvent;
 import flash.net.URLLoader;
 import flash.net.URLRequest;
 
-class GameApp extends MovieClip {
+@:bind @:native("Game.GameApp") class GameApp extends MovieClip {
     public var gameMan:GameManager;
     public var GameOver:Bool = false;
     public var ROCKS:Int; // = 10;
@@ -18,13 +18,19 @@ class GameApp extends MovieClip {
     private var xmlLoader = new URLLoader();
     private var urlRequest = new URLRequest("assets/config.xml");
 
-    public function new():Void {
-        trace("GameApp Constructor");
+    public var gameContainer:MovieClip;
+
+    public function new(instance:Dynamic):Void {
+        super();
+        trace("GameApp Constructor way");
+
+        this.gameContainer = instance;
+        this.addChild(instance);
 
         xmlLoader.load(urlRequest);
         xmlLoader.addEventListener(Event.COMPLETE, configLoaded);
 
-        super();
+        this.addEventListener(MouseEvent.CLICK, (_) -> Log.warn('clicked'));
     }
 
     public function configLoaded(anEvent:Event):Void {
@@ -35,16 +41,16 @@ class GameApp extends MovieClip {
         gameMan = new GameManager();
 
         Log.throwErrors = false;
-        Log.error('fix instance name access');
-        // this.startBtn.addEventListener(MouseEvent.MOUSE_UP, startGame);
-        // this.insBtn.addEventListener(MouseEvent.MOUSE_UP, instructions);
+        gameContainer.getChildByName('startBtn').addEventListener(MouseEvent.MOUSE_UP, startGame);
+        gameContainer.getChildByName('insBtn').addEventListener(MouseEvent.MOUSE_UP, instructions);
     }
 
     public function startGame(anEvent:Event):Void {
-        gotoAndPlay("Gameplay");
+        gameContainer.gotoAndPlay("Gameplay");
+        gameMan.init_Game(this, gameContainer);
     }
 
     public function instructions(anEvent:Event):Void {
-        gotoAndPlay("Instructions");
+        gameContainer.gotoAndStop("Instructions");
     }
 }

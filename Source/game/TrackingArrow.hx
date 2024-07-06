@@ -1,20 +1,22 @@
 ﻿package game;
 
+import openfl.Assets;
 import flash.display.MovieClip;
 import flash.geom.Point;
 import flash.events.Event;
 
-class TrackingArrow extends MovieClip {
+@:bind class TrackingArrow extends MovieClip {
     private var centerPoint:Point = new Point(275, 200);
     private var deltaPoint:Point = new Point();
     private var rads:Float;
     private var pDot:Dot;
 
     public function new(aDot:Dot):Void {
+        super();
         pDot = aDot;
         this.alpha = 0;
+        this.addChild(Assets.getMovieClip('fl-lib:Game.TrackingArrow'));
         this.addEventListener(Event.ENTER_FRAME, update);
-        super();
     }
 
     public function update(anEvent:Event):Void {

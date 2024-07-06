@@ -23,11 +23,11 @@ class TrackingArrow_a extends MovieClip {
     private var line_err:Bool = false;
 
     public function new(aDot:Dot):Void {
+        super();
+
         intersect = new Point();
         pDot = aDot;
         this.addEventListener(Event.ADDED_TO_STAGE, init);
-
-        super();
     }
 
     public function init(anEvent:Event):Void {

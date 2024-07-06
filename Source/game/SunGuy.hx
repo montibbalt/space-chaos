@@ -1,11 +1,12 @@
 ﻿package game;
 
+import openfl.Assets;
 import lime.utils.Log;
 import flash.display.MovieClip;
 import flash.events.Event;
 import flash.events.TimerEvent;
 
-class SunGuy extends MovieClip {
+@:bind class SunGuy extends MovieClip {
     private var pSunMan:SunManager;
 
     public var Added:Bool = true;
@@ -14,9 +15,10 @@ class SunGuy extends MovieClip {
     private var halfWidth:Float;
 
     public function new(aSunMan:SunManager):Void {
-        pSunMan = aSunMan;
-        this.addEventListener(Event.ADDED_TO_STAGE, init);
         super();
+        pSunMan = aSunMan;
+        this.addChild(Assets.getMovieClip('fl-lib:Game.SunGuy'));
+        this.addEventListener(Event.ADDED_TO_STAGE, init);
     }
 
     private function init(e:Event):Void {
@@ -36,8 +38,9 @@ class SunGuy extends MovieClip {
         if (this.x > 500) {
             this.x -= 6.1;
         } else {
-            Log.error('fix instance name access');
-            // pSunMan.pDocClass.sunWarning.visible = false;
+            var warning = pSunMan.pDocClass.gameContainer.getChildByName('sunWarning');
+            if(warning != null)
+                warning.visible = false;
         }
     }
 

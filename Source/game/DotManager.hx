@@ -25,16 +25,16 @@ class DotManager extends MovieClip {
     var time:Int = getTimer();
 
     public function new():Void {
-        trace("DotManager Constructor");
         super();
+        trace("DotManager Constructor");
     }
 
     public function init_Game(aDocClass:GameApp):Void {
         adjustedSpeed = speed * ppm;
         pDocClass = aDocClass;
         INITCOUNT = pDocClass.ROCKS;
-        dotsArray = new Array();
-        arrowsArray = new Array();
+        dotsArray = [];
+        arrowsArray = [];
 
         addParticles(INITCOUNT);
 
@@ -48,8 +48,8 @@ class DotManager extends MovieClip {
             // I don't like using the new thing here but it won't work otherwise?
             var temp:Dot = new Dot(this);
             var temp2:TrackingArrow = new TrackingArrow(temp);
-            pDocClass.addChildAt(temp, 2);
-            pDocClass.addChildAt(temp2, 1);
+            pDocClass.gameContainer.addChildAt(temp, 2);
+            pDocClass.gameContainer.addChildAt(temp2, 1);
 
             dotsArray.push(temp);
             arrowsArray.push(temp2);
@@ -65,8 +65,8 @@ class DotManager extends MovieClip {
         while (++i < particleCount) {
             if (!pDocClass.GameOver) {
                 var temp:Dot = dotsArray[i];
-                dx = temp.x - pDocClass.stage.mouseX;
-                dy = temp.y - pDocClass.stage.mouseY;
+                dx = temp.x - pDocClass.gameContainer.stage.mouseX;
+                dy = temp.y - pDocClass.gameContainer.stage.mouseY;
 
                 angle = Math.atan2(dy, dx);
                 /*var absAng:Float = angle > 0.0 ? angle : -angle;
@@ -111,21 +111,24 @@ class DotManager extends MovieClip {
     }
 
     public function KillAll():Void {
-        cast(this.parent, GameManager).scoreTimer.stop();
+        var gameMan = cast(this.parent, GameManager);
+        gameMan.scoreTimer.stop();
+        gameMan.EndGame();
+        //cast(this.parent, GameManager).scoreTimer.stop();
 
         trace("Removing Dots");
         while (dotsArray.length > 0) {
-            pDocClass.removeChild(dotsArray[0]);
+            pDocClass.gameContainer.removeChild(dotsArray[0]);
             dotsArray.splice(0, 1);
         }
         trace("Removing Arrows");
         while (arrowsArray.length > 0) {
-            pDocClass.removeChild(arrowsArray[0]);
+            pDocClass.gameContainer.removeChild(arrowsArray[0]);
             arrowsArray.splice(0, 1);
         }
 
         this.removeEventListener(Event.ENTER_FRAME, update);
-        pDocClass.gotoAndStop("GameOver");
+        pDocClass.gameContainer.gotoAndStop("GameOver");
     }
 
     public function checkIfOffStage(dot:Dot):Bool {

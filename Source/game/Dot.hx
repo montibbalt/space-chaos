@@ -1,5 +1,6 @@
 ﻿package game;
 
+import openfl.Assets;
 import flash.display.Sprite;
 import flash.events.*;
 
@@ -21,11 +22,12 @@ class Dot extends Sprite {
     private var halfWidth:Float;
 
     public function new(aDotMan:DotManager):Void {
+        super();
+
         pDotMan = aDotMan;
 
+        this.addChild(Assets.getMovieClip('fl-lib:Game.Dot'));
         this.addEventListener(Event.ADDED_TO_STAGE, addedToStage);
-
-        super();
     }
 
     public function addedToStage(anEvent:Event):Void {
@@ -42,7 +44,7 @@ class Dot extends Sprite {
     }
 
     private function generateRandomSpawnPosition():Void {
-        var startingSide:Float = Math.round(Math.random() * 3);
+        var startingSide:Int = Math.round(Math.random() * 3);
         switch (startingSide) {
             case RockSpawn.LT:
                 this.x = -halfWidth;

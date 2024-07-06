@@ -1,13 +1,15 @@
 ﻿package game;
 
+import openfl.Assets;
 import flash.display.MovieClip;
 import flash.events.*;
 import flash.ui.Mouse;
 
-class Player extends MovieClip {
+@:bind class Player extends MovieClip {
     public function new():Void {
-        this.addEventListener(Event.ADDED_TO_STAGE, init);
         super();
+        this.addChild(Assets.getMovieClip('fl-lib:Game.Player'));
+        this.addEventListener(Event.ADDED_TO_STAGE, init);
     }
 
     public function init(anEvent:Event):Void {

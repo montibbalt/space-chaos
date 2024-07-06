@@ -19,10 +19,10 @@ class SunManager extends MovieClip {
     private var sun:SunGuy;
 
     public function new(aDocClass:GameApp):Void {
+        super();
         trace("SunManager Constructor");
         pDocClass = aDocClass;
         this.addEventListener(Event.ADDED, init);
-        super();
     }
 
     public function init(anEvent:Event):Void {
@@ -44,12 +44,12 @@ class SunManager extends MovieClip {
             // added = true;
         } else {}
 
-        Log.error('fix instance name access');
-        // pDocClass.sunWarning.visible = !pDocClass.sunWarning.visible;
+        var sunWarning = pDocClass.gameContainer.getChildByName('sunWarning');
+        sunWarning.visible = !sunWarning.visible;
     }
 
     public function addSun(anEvent:TimerEvent):Void {
-        pDocClass.addChildAt(sun, 1);
+        pDocClass.gameContainer.addChildAt(sun, 1);
         sun.addEventListener(Event.ENTER_FRAME, sun.moveIn);
         sun.addEventListener(Event.ENTER_FRAME, sun.update);
         sun.removeEventListener(Event.ENTER_FRAME, sun.moveOut);
@@ -98,7 +98,10 @@ class SunManager extends MovieClip {
         // sunTimer.removeEventListener(TimerEvent.TIMER, removeSun);
 
         this.removeEventListener(Event.ENTER_FRAME, update);
-        pDocClass.gotoAndStop("GameOver");
+        pDocClass.gameContainer.gotoAndStop("GameOver");
+        var gameMan = cast(this.parent, GameManager);
+        gameMan.scoreTimer.stop();
+        gameMan.EndGame();
 
         // if(added)
         {
@@ -115,7 +118,7 @@ class SunManager extends MovieClip {
         sun.removeEventListener(Event.ENTER_FRAME, sun.moveIn);
         sun.removeEventListener(Event.ENTER_FRAME, sun.moveOut);
         if (added) {
-            pDocClass.removeChild(sun);
+            pDocClass.gameContainer.removeChild(sun);
             added = false;
         }
     }
