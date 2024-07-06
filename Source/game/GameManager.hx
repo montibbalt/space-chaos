@@ -1,25 +1,27 @@
-﻿package game
-{
+﻿package game;
+
 	import flash.display.MovieClip;
 	import flash.events.*;
 	import flash.utils.Timer;
 	import flash.text.*;
 	import flash.ui.Mouse;
 
-	public class GameManager extends MovieClip
+	class GameManager extends MovieClip
 	{
 		private var pDocClass:GameApp;
 		private var DotMan:DotManager;
 		private var SunMan:SunManager;
-		private var gamePlayer:Player;
+		public var gamePlayer(get, null):Player;
 		public var scoreTimer:Timer;
 
 		private var score = 0;
 		private var seconds = 0;
 
-		public function GameManager():void{}
+		public function new():Void{
+            super();
+        }
 
-		public function init_Game(aDocClass:GameApp):void
+		public function init_Game(aDocClass:GameApp):Void
 		{
 			pDocClass = aDocClass;
 			DotMan = new DotManager();
@@ -27,53 +29,58 @@
 			gamePlayer = new Player();
 
 
-			pDocClass.sunWarning.visible = false;
+            throw 'fix instance name access';
+			//pDocClass.sunWarning.visible = false;
 			scoreTimer = new Timer(1000, 1);
 			scoreTimer.addEventListener(TimerEvent.TIMER, scoreTimerHandler);
 			DotMan.init_Game(pDocClass);
 
 			addChild(DotMan);
 			addChild(SunMan);
-			pDocClass.addChild(GamePlayer);
+			pDocClass.addChild(gamePlayer);
 
 			var textFormat:TextFormat = new TextFormat();
 			textFormat.bold = true;
 
-			pDocClass.scoreBox.defaultTextFormat = textFormat;
-			pDocClass.dotCountBox.defaultTextFormat = textFormat;
+            throw 'fix instance name access';
+			//pDocClass.scoreBox.defaultTextFormat = textFormat;
+			//pDocClass.dotCountBox.defaultTextFormat = textFormat;
 
-			pDocClass.dotCountBox.text = DotMan.ParticleCount + " ROCKS"
+			//pDocClass.dotCountBox.text = DotMan.particleCount + " ROCKS";
 			scoreTimer.start();
 
 		}
 
-		public function scoreTimerHandler(anEvent:TimerEvent):void
+		public function scoreTimerHandler(anEvent:TimerEvent):Void
 		{
 			seconds++;
-			score += seconds + DotMan.ParticleCount;
-			pDocClass.scoreBox.text = score;
+			score += seconds + DotMan.particleCount;
+            throw 'fix instance name access';
+			//pDocClass.scoreBox.text = score;
 
-			if(!(seconds & pDocClass.SpawnCycle))
-			{
-				DotMan.addParticles(1);
-				pDocClass.dotCountBox.text = DotMan.ParticleCount + " ROCKS"
-			}
+			//if(!(seconds & pDocClass.SpawnCycle))
+			//{
+			//	DotMan.addParticles(1);
+			//	pDocClass.dotCountBox.text = DotMan.particleCount + " ROCKS";
+			//}
 
 			scoreTimer.reset();
 			scoreTimer.start();
 		}
 
-		public function EndGame():void
+		public function EndGame():Void
 		{
-			GamePlayer.removeEventListener(Event.ENTER_FRAME, gamePlayer.update);
+			gamePlayer.removeEventListener(Event.ENTER_FRAME, gamePlayer.update);
 			pDocClass.removeChild(gamePlayer);
 			Mouse.show();
-			pDocClass.playBtn.addEventListener(MouseEvent.MOUSE_DOWN, newGame);
-			pDocClass.scoreBoxF.text = score;
-			pDocClass.dotCountBoxF.text = DotMan.ParticleCount + " ROCKS"
+
+            throw 'fix instance name access';
+			//pDocClass.playBtn.addEventListener(MouseEvent.MOUSE_DOWN, newGame);
+			//pDocClass.scoreBoxF.text = score;
+			//pDocClass.dotCountBoxF.text = DotMan.particleCount + " ROCKS";
 		}
 
-		public function newGame(anEvent:MouseEvent):void
+		public function newGame(anEvent:MouseEvent):Void
 		{
 			DotMan = new DotManager();
 			SunMan = new SunManager(pDocClass);
@@ -82,9 +89,8 @@
 			pDocClass.GameOver = false;
 		}
 
-		public function get GamePlayer()
+		public function get_gamePlayer()
 		{
 			return gamePlayer;
 		}
 	}
-}

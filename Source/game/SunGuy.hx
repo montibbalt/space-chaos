@@ -1,39 +1,40 @@
-﻿package game
-{
+﻿package game;
+
 	import flash.display.MovieClip;
 	import flash.events.Event;
 	import flash.events.TimerEvent;
 
-	public class SunGuy extends MovieClip
+	class SunGuy extends MovieClip
 	{
 		private var pSunMan:SunManager;
-		public var Added:Boolean = true;
-		public var completed:Boolean = false;
+		public var Added:Bool = true;
+		public var completed:Bool = false;
 
-		private var halfWidth:Number;
-		public function SunGuy(aSunMan:SunManager):void
+		private var halfWidth:Float;
+		public function new(aSunMan:SunManager):Void
 		{
 			pSunMan = aSunMan;
 			this.addEventListener(Event.ADDED_TO_STAGE, init);
+            super();
 		}
 
-		private function init(e:Event):void
+		private function init(e:Event):Void
 		{
-			halfWidth = this.width >> 1;
+			halfWidth = this.width * 0.5;
 			this.y = 200;
 			this.x = 550 + halfWidth;
 			trace("SunGuy created");
 
 		}
 
-		public function update(anEvent:Event):void
+		public function update(anEvent:Event):Void
 		{
-			if(Math.sqrt((Math.pow(this.x - pSunMan.DocClass.gameMan.GamePlayer.x , 2)) + (Math.pow(this.y - pSunMan.DocClass.gameMan.GamePlayer.y, 2))) < 200)
+			if(Math.sqrt((Math.pow(this.x - pSunMan.pDocClass.gameMan.gamePlayer.x , 2)) + (Math.pow(this.y - pSunMan.pDocClass.gameMan.gamePlayer.y, 2))) < 200)
 			{
-				pSunMan.DocClass.GameOver = true;
+				pSunMan.pDocClass.GameOver = true;
 			}
 		}
-		public function moveIn(anEvent:Event):void
+		public function moveIn(anEvent:Event):Void
 		{
 			if (this.x > 500)
 			{
@@ -41,20 +42,21 @@
 			}
 			else
 			{
-				pSunMan.DocClass.sunWarning.visible = false;
+			    throw 'fix instance name access';
+				//pSunMan.pDocClass.sunWarning.visible = false;
 			}
 		}
-		public function moveOut(anEvent:Event):void
+		public function moveOut(anEvent:Event):Void
 		{
 			if(this.x < 550 + halfWidth)
 			{
 				this.x += 6.1;
 			}
-			if(this.currentFrame == 120 && this.x > this.x < 550 + halfWidth)
-			{
-				trace("wat");
-				pSunMan.killSun();
-			}
+            throw 'fix weird >< syntax';
+			//if(this.currentFrame == 120 && this.x > this.x < 550 + halfWidth)
+			//{
+			//	trace("wat");
+			//	pSunMan.killSun();
+			//}
 		}
 	}
-}

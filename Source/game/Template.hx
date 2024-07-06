@@ -1,11 +1,11 @@
-﻿package game
-{
+﻿package game;
+
 	import flash.display.MovieClip;
 
-	public class TrackingArrow extends MovieClip
+	class TrackingArrow extends MovieClip
 	{
-		public function TrackingArrow():void
+		public function new():Void
 		{
+            super();
 		}
 	}
-}

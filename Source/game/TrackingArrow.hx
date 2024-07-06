@@ -1,24 +1,25 @@
-﻿package game
-{
+﻿package game;
+
 	import flash.display.MovieClip;
 	import flash.geom.Point;
 	import flash.events.Event;
 
-	public class TrackingArrow extends MovieClip
+	class TrackingArrow extends MovieClip
 	{
 		private var centerPoint:Point = new Point(275, 200);
 		private var deltaPoint:Point = new Point();
-		private var rads:Number;
+		private var rads:Float;
 		private var pDot:Dot;
 
-		public function TrackingArrow(aDot:Dot):void
+		public function new(aDot:Dot):Void
 		{
 			pDot = aDot;
 			this.alpha = 0;
 			this.addEventListener(Event.ENTER_FRAME, update);
+            super();
 		}
 
-		public function update(anEvent:Event):void
+		public function update(anEvent:Event):Void
 		{
 				deltaPoint.x = pDot.x - centerPoint.x;
 				deltaPoint.y = pDot.y - centerPoint.y;
@@ -28,4 +29,3 @@
 				this.rotation = Math.round((rads*180/Math.PI));
 		}
 	}
-}

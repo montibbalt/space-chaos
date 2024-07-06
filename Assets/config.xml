@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<config>
+	<rocks count = "1.0" />
+	<spawn cycle = "2.0" />
+</config>

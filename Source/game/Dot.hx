@@ -1,38 +1,41 @@
-﻿package game
-{
+﻿package game;
+
 	import flash.display.Sprite;
 	import flash.events.*;
 
-	public class Dot extends Sprite
+	class Dot extends Sprite
 	{
-		private var pDotMan:DotManager;
-		private var hMin:Number = 0, vMin:Number = 0;
-		private var hMax:Number = 550, vMax:Number = 400;
+		public var pDotMan(get, null):DotManager;
+		private var hMin:Float = 0;
+        private var vMin:Float = 0;
+		private var hMax:Float = 550;
+        private var vMax:Float = 400;
 
-		public var dx:Number = 0;
-		public var dy:Number = 0;
+		public var dx:Float = 0;
+		public var dy:Float = 0;
 
-		private var speed:Number;
-		private var rotSpeed:Number;
-		private var halfWidth:Number;
+		private var speed:Float;
+		public var rotSpeed(get, null):Float;
+		private var halfWidth:Float;
 
 
-		public function Dot(aDotMan:DotManager):void
+		public function new(aDotMan:DotManager):Void
 		{
 			pDotMan = aDotMan;
 
 			this.addEventListener(Event.ADDED_TO_STAGE, addedToStage);
 
+            super();
 		}
 
-		public function addedToStage(anEvent:Event):void
+		public function addedToStage(anEvent:Event):Void
 		{
 			rotSpeed = (Math.random() * 2) - 1;
-			halfWidth = this.width >> 1;
+			halfWidth = this.width * 0.5;
 			generateRandomSpawnPosition();
 		}
 
-		public function update():void
+		public function update():Void
 		{
 			graphics.clear();
 			graphics.lineStyle(1,0,100);
@@ -40,49 +43,40 @@
 			graphics.lineTo(mouseX, mouseY);
 		}
 
-		private function generateRandomSpawnPosition():void
+		private function generateRandomSpawnPosition():Void
 		{
-			var startingSide:Number = Math.round(Math.random() * 3);
+			var startingSide:Float = Math.round(Math.random() * 3);
 			switch(startingSide)
 			{
 				case RockSpawn.LT:
 					this.x = -halfWidth;
 					this.y = Math.round((Math.random() * (vMax - vMin)) + vMin);
 
-					break;
-
 				case RockSpawn.TP:
 					this.x = Math.round((Math.random() * (hMax - hMin)) + hMin);
 					this.y = -halfWidth;
-
-					break;
 
 				case RockSpawn.RT:
 					this.x = 550 + halfWidth;
 					this.y = Math.round((Math.random() * (vMax - vMin)) + vMin);
 
-					break;
-
 				case RockSpawn.BT:
 					this.x = Math.round((Math.random() * (hMax - hMin)) + hMin);
 					this.y = 400 + halfWidth;
 
-					break;
-
 				default:
 					this.x = 0;
 					this.y = 0;
-					trace("WARNING: Spawn default")
+					trace("WARNING: Spawn default");
 			}
 		}
 
-		public function get RotSpeed():Number
+		public function get_rotSpeed():Float
 		{
 			return rotSpeed;
 		}
-		public function get DotMan():DotManager
+		public function get_pDotMan():DotManager
 		{
 			return pDotMan;
 		}
 	}
-}

@@ -1,10 +1,10 @@
-﻿package game
-{
+﻿package game;
+
 	import flash.display.MovieClip;
 	import flash.geom.Point;
 	import flash.events.*;
 
-	public class TrackingArrow extends MovieClip
+	class TrackingArrow extends MovieClip
 	{
 		private var topLeft:Point;
 		private var bottomLeft:Point;
@@ -12,18 +12,18 @@
 		private var bottomRight:Point;
 		private var centerPoint:Point;
 
-		private var a1:Number;
-		private var a2:Number;
-		private var b1:Number;
-		private var b2:Number;
-		private var c1:Number;
-		private var c2:Number;
+		private var a1:Float;
+		private var a2:Float;
+		private var b1:Float;
+		private var b2:Float;
+		private var c1:Float;
+		private var c2:Float;
 		private var pDot:Dot;
 		private var intersect:Point;
 
-		private var line_err:Boolean = false;
+		private var line_err:Bool = false;
 
-		public function TrackingArrow(aDot:Dot):void
+		public function new(aDot:Dot):Void
 		{
 			intersect = new Point();
 			pDot = aDot;
@@ -31,7 +31,7 @@
 
 		}
 
-		public function init(anEvent:Event):void
+		public function init(anEvent:Event):Void
 		{
 			topLeft = new Point(0,0);
 			bottomLeft = new Point(0,400);
@@ -41,7 +41,7 @@
 			this.addEventListener(Event.ENTER_FRAME, update);
 		}
 
-		public function update(anEvent:Event):void
+		public function update(anEvent:Event):Void
 		{
 			if(this.visible)
 			{
@@ -52,7 +52,7 @@
 
 		public function showIntersectPoint()
 		{
-			var xOff:Number = 0, yOff:Number = 0;
+			var xOff:Float = 0, yOff:Float = 0;
 			if(pDot.x < 0)
 				xOff = -1;
 			else if(pDot.x > 550)
@@ -113,7 +113,7 @@
 
 		}
 
-		public function findIntersectPoint(ptA:Point, ptB:Point, ptY:Point, ptZ:Point, flip:Number, seg:Boolean = true)
+		public function findIntersectPoint(ptA:Point, ptB:Point, ptY:Point, ptZ:Point, flip:Float, seg:Bool = true)
 		{
 			if(flip == -1)
 			{
@@ -132,7 +132,7 @@
 			b2 = ptY.x - ptZ.x;
 			c2 = (ptZ.x * ptY.y) - (ptY.x * ptZ.y);
 
-			var denom:Number = a1 * b2 - a2 * b1;
+			var denom:Float = a1 * b2 - a2 * b1;
 			if(denom == 0)
 			{
 				trace("Error: Divide by zero");
@@ -174,7 +174,7 @@
 
 
 		}
-		public function checkLineErr(xOff:Number, yOff:Number):void
+		public function checkLineErr(xOff:Float, yOff:Float):Void
 		{
 			if(line_err)
 			{
@@ -213,4 +213,3 @@
 			}
 		}
 	}
-}

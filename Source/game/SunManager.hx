@@ -1,41 +1,42 @@
-﻿package game
-{
+﻿package game;
+
 	import flash.display.MovieClip;
 	import flash.events.*;
 	import flash.utils.Timer;
 
-	public class SunManager extends MovieClip
+	class SunManager extends MovieClip
 	{
-		private var pDocClass:GameApp;
-		private var maxTime:Number = 12;
-		private var minTime:Number = 10;
+		public var pDocClass(get, null):GameApp;
+		private var maxTime:Float = 12;
+		private var minTime:Float = 10;
 		private var sunWarnTimer:Timer;
 		private var sunTimer:Timer;
-		private var added = false;
-		public var completed:Boolean = false;
+		public var added(get, null) = false;
+		public var completed:Bool = false;
 
 		private var sun:SunGuy;
 
-		public function SunManager(aDocClass:GameApp):void
+		public function new(aDocClass:GameApp):Void
 		{
 			trace("SunManager Constructor");
 			pDocClass = aDocClass;
 			this.addEventListener(Event.ADDED, init);
+            super();
 		}
 
-		public function init(anEvent:Event):void
+		public function init(anEvent:Event):Void
 		{
 			this.addEventListener(Event.ENTER_FRAME, update);
 			sun = new SunGuy(this);
 
-			var time:Number = (Math.round((Math.random() * (maxTime - minTime)) + minTime)) * 1000;
+			var time:Float = (Math.round((Math.random() * (maxTime - minTime)) + minTime)) * 1000;
 			sunTimer = new Timer(1, 0);
 			sunWarnTimer = new Timer(time, 1);
 			sunWarnTimer.addEventListener(TimerEvent.TIMER, toggleSunWarning);
 			sunWarnTimer.start();
 		}
 
-		public function toggleSunWarning(anEvent:TimerEvent):void
+		public function toggleSunWarning(anEvent:TimerEvent):Void
 		{
 			if (!added)
 			{
@@ -50,11 +51,12 @@
 
 			}
 
-			pDocClass.sunWarning.visible = !pDocClass.sunWarning.visible;
+            throw 'fix instance name access';
+			//pDocClass.sunWarning.visible = !pDocClass.sunWarning.visible;
 
 		}
 
-		public function addSun(anEvent:TimerEvent):void
+		public function addSun(anEvent:TimerEvent):Void
 		{
 			pDocClass.addChildAt(sun, 1);
 			sun.addEventListener(Event.ENTER_FRAME, sun.moveIn);
@@ -71,30 +73,30 @@
 			added = true;
 		}
 
-		public function removeSun(anEvent:TimerEvent):void
+		public function removeSun(anEvent:TimerEvent):Void
 		{
 			//added = false;
 			sun.removeEventListener(Event.ENTER_FRAME, sun.moveIn);
 			sun.removeEventListener(Event.ENTER_FRAME, sun.update);
 			sun.addEventListener(Event.ENTER_FRAME, sun.moveOut);
 			sun.gotoAndPlay("rollout");
-			var time:Number = (Math.round((Math.random() * (maxTime - minTime)) + minTime)) * 1000;
+			var time:Float = (Math.round((Math.random() * (maxTime - minTime)) + minTime)) * 1000;
 			sunWarnTimer = new Timer(time, 1);
 			sunWarnTimer.addEventListener(TimerEvent.TIMER, toggleSunWarning);
 			sunWarnTimer.start();
 		}
 
-		public function update(anEvent:Event):void
+		public function update(anEvent:Event):Void
 		{
 			if(pDocClass.GameOver)
 			{
 				KillAll();
 
-				GameManager(this.parent).removeChild(this);
+				cast (this.parent, GameManager).removeChild(this);
 			}
 		}
 
-		public function KillAll():void
+		public function KillAll():Void
 		{
 			killSun();
 
@@ -122,7 +124,7 @@
 			}
 		}
 
-		public function killSun():void
+		public function killSun():Void
 		{
 			sun.removeEventListener(Event.ENTER_FRAME, sun.update);
 			sun.removeEventListener(Event.ENTER_FRAME, sun.moveIn);
@@ -134,13 +136,12 @@
 			}
 		}
 
-		public function get DocClass():GameApp
+		public function get_pDocClass():GameApp
 		{
 			return pDocClass;
 		}
-		public function get Added():Boolean
+		public function get_added():Bool
 		{
 			return added;
 		}
 	}
-}

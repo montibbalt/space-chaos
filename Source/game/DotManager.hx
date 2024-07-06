@@ -1,33 +1,36 @@
-﻿package game
-{
+﻿package game;
+
 	import flash.display.MovieClip;
 	import flash.events.*;
-	import flash.utils.getTimer;
+	import openfl.Lib.getTimer;
 
-	public class DotManager extends MovieClip
+	class DotManager extends MovieClip
 	{
-		private var pDocClass:GameApp;
-		private var dotsArray:Array;
-		private var arrowsArray:Array;
+		public var pDocClass(get, null):GameApp;
+		private var dotsArray:Array<Dot>;
+		private var arrowsArray:Array<TrackingArrow>;
 
-		private var INITCOUNT:int;// = 10;
-		private var particleCount:int;// = INITCOUNT;
+		private var INITCOUNT:Int;// = 10;
+		public var particleCount(get, null):Int;// = INITCOUNT;
 
-		private var ppm:Number = 200;
-		private var speed:Number = 1.6 * 0.00028///(60*60);
-		private var adjustedSpeed:Number = speed * ppm;
+		public var ppm(get, null):Float = 200;
+		public var speed(get, null):Float = 1.6 * 0.00028;///(60*60);
+		private var adjustedSpeed:Float;// = speed * ppm;
 
-		private var dx:Number = 0, dy:Number = 0;
-		private var angle:Number;
-		var time:int = getTimer();
+		private var dx:Float = 0;
+        private var dy:Float = 0;
+		private var angle:Float;
+		var time:Int = getTimer();
 
-		public function DotManager():void
+		public function new():Void
 		{
 			trace("DotManager Constructor");
+            super();
 		}
 
-		public function init_Game(aDocClass:GameApp):void
+		public function init_Game(aDocClass:GameApp):Void
 		{
+            adjustedSpeed = speed * ppm;
 			pDocClass = aDocClass;
 			INITCOUNT = pDocClass.ROCKS;
 			dotsArray = new Array();
@@ -38,10 +41,10 @@
 			this.addEventListener(Event.ENTER_FRAME, update);
 		}
 
-		public function addParticles(numParts:int):void
+		public function addParticles(numParts:Int):Void
 		{
 
-			var i:int = -1;
+			var i:Int = -1;
 
 			while(++i < numParts)
 			{
@@ -59,10 +62,10 @@
 			//trace(particleCount);
 		}
 
-		public function update(anEvent:Event):void
+		public function update(anEvent:Event):Void
 		{
 
-			var i:int = -1;
+			var i:Int = -1;
 			time = getTimer();
 			while(++i < particleCount)
 			{
@@ -73,7 +76,7 @@
 					dy = temp.y - pDocClass.stage.mouseY;
 
 					angle = Math.atan2(dy, dx);
-					/*var absAng:Number = angle > 0.0 ? angle : -angle;
+					/*var absAng:Float = angle > 0.0 ? angle : -angle;
 					var dySin = (((B * angle) + (C * angle * absAng)) * speed * ppm);*/
 
 					temp.dx -= (Math.cos(angle) * adjustedSpeed);
@@ -83,7 +86,7 @@
 					temp.x += temp.dx;
 					temp.y += temp.dy;
 
-					temp.rotation += temp.RotSpeed;
+					temp.rotation += temp.rotSpeed;
 
 
 					if(temp.visible)
@@ -120,14 +123,14 @@
 			{
 				KillAll();
 
-				GameManager(this.parent).removeChild(this);
+				cast (this.parent, GameManager).removeChild(this);
 			}
 			//trace(getTimer() - time);
 		}
 
-		public function KillAll():void
+		public function KillAll():Void
 		{
-			GameManager(this.parent).scoreTimer.stop();
+			cast (this.parent, GameManager).scoreTimer.stop();
 
 			trace("Removing Dots");
 			while(dotsArray.length > 0)
@@ -147,7 +150,7 @@
 
 		}
 
-		public function checkIfOffStage(dot:Dot):Boolean
+		public function checkIfOffStage(dot:Dot):Bool
 		{
 			// Hardcoded bounds cause it's faster :P
 			if(dot.x < -20 || dot.x > 570 || dot.y < -20 || dot.y > 420)
@@ -157,21 +160,20 @@
 			return false;
 		}
 
-		public function get PPM():Number
+		public function get_ppm():Float
 		{
 			return ppm;
 		}
-		public function get Speed():Number
+		public function get_speed():Float
 		{
 			return speed;
 		}
-		public function get ParticleCount():Number
+		public function get_particleCount():Int
 		{
 			return particleCount;
 		}
-		public function get DocClass():GameApp
+		public function get_pDocClass():GameApp
 		{
 			return pDocClass;
 		}
 	}
-}
