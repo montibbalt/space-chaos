@@ -69,10 +69,6 @@ class GameManager extends MovieClip {
         gameContainer.removeChild(gamePlayer);
         Mouse.show();
 
-        for(i in 0...gameContainer.numChildren){
-            trace(gameContainer.getChildAt(i).printDO());
-        }
-
         gameContainer.getChildByName('playBtn').addEventListener(MouseEvent.MOUSE_DOWN, newGame);
         cast(gameContainer.getChildByName('scoreBoxF'), TextField).text = '$score';
         cast(gameContainer.getChildByName('dotCountBoxF'), TextField).text = DotMan.particleCount + " ROCKS";

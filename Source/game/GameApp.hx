@@ -29,8 +29,6 @@ import flash.net.URLRequest;
 
         xmlLoader.load(urlRequest);
         xmlLoader.addEventListener(Event.COMPLETE, configLoaded);
-
-        this.addEventListener(MouseEvent.CLICK, (_) -> Log.warn('clicked'));
     }
 
     public function configLoaded(anEvent:Event):Void {

@@ -48,7 +48,7 @@ class DotManager extends MovieClip {
         while (++i < numParts) {
             // I don't like using the new thing here but it won't work otherwise?
             var temp:Dot = new Dot(this);
-            var temp2:TrackingArrow = new TrackingArrow(temp);
+            var temp2 = new TrackingArrow(temp);
             temp2.alpha = 1.0;
             pDocClass.gameContainer.addChildAt(temp, 2);
             pDocClass.gameContainer.addChildAt(temp2, 1);

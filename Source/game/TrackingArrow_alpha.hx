@@ -1,5 +1,6 @@
 ﻿package game;
 
+import openfl.Assets;
 import flash.display.MovieClip;
 import flash.geom.Point;
 import flash.events.*;
@@ -22,11 +23,17 @@ class TrackingArrow_a extends MovieClip {
 
     private var line_err:Bool = false;
 
+    private var asset:MovieClip;
+
     public function new(aDot:Dot):Void {
         super();
 
         intersect = new Point();
         pDot = aDot;
+        this.asset = Assets.getMovieClip('fl-lib:Game.TrackingArrow');
+        this.asset.gotoAndPlay(1);
+        this.asset.rotation = 90;
+        this.addChild(asset);
         this.addEventListener(Event.ADDED_TO_STAGE, init);
     }
 

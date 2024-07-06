@@ -67,7 +67,6 @@ class SunManager extends MovieClip {
 
     public function removeSun(anEvent:TimerEvent):Void {
         // added = false;
-        Log.error('removeSun');
         sun.removeEventListener(Event.ENTER_FRAME, sun.moveIn);
         sun.removeEventListener(Event.ENTER_FRAME, sun.update);
         sun.addEventListener(Event.ENTER_FRAME, sun.moveOut);
