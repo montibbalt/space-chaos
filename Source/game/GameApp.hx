@@ -1,6 +1,7 @@
 ﻿package game;
 
-	import flash.display.MovieClip;
+	import lime.utils.Log;
+import flash.display.MovieClip;
 	import flash.text.*;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
@@ -14,7 +15,7 @@
 		public var ROCKS:Int;// = 10;
 		public var SpawnCycle:Int;
 
-		private var xml:Xml;// = new Xml();
+		private var xml:haxe.xml.Access;// = new Xml();
 		private var xmlLoader = new URLLoader();
 		private var urlRequest = new URLRequest("assets/config.xml");
 
@@ -29,15 +30,14 @@
 		}
 		public function configLoaded(anEvent:Event):Void
 		{
-            xml = Xml.parse(anEvent.target.data);
-			//xml = XML(anEvent.target.data);
-            throw 'fix old XML syntax';
-			//ROCKS = xml.rocks.@count;
-			//SpawnCycle = xml.spawn.@cycle - 1;
+            xml = new haxe.xml.Access(Xml.parse(anEvent.target.data)).node.config;
+			ROCKS = Std.parseInt(xml.node.rocks.att.count);
+			SpawnCycle = Std.parseInt(xml.node.spawn.att.cycle) - 1;
 
 			gameMan = new GameManager();
 
-            throw 'fix instance name access';
+            Log.throwErrors = false;
+            Log.error('fix instance name access');
 			//this.startBtn.addEventListener(MouseEvent.MOUSE_UP, startGame);
 			//this.insBtn.addEventListener(MouseEvent.MOUSE_UP, instructions);
 		}

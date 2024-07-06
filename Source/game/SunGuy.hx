@@ -1,6 +1,7 @@
 ﻿package game;
 
-	import flash.display.MovieClip;
+	import lime.utils.Log;
+import flash.display.MovieClip;
 	import flash.events.Event;
 	import flash.events.TimerEvent;
 
@@ -42,7 +43,7 @@
 			}
 			else
 			{
-			    throw 'fix instance name access';
+			    Log.error('fix instance name access');
 				//pSunMan.pDocClass.sunWarning.visible = false;
 			}
 		}
@@ -52,7 +53,7 @@
 			{
 				this.x += 6.1;
 			}
-            throw 'fix weird >< syntax';
+            Log.error('fix instance name access');
 			//if(this.currentFrame == 120 && this.x > this.x < 550 + halfWidth)
 			//{
 			//	trace("wat");

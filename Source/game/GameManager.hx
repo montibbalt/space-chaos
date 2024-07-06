@@ -1,6 +1,7 @@
 ﻿package game;
 
-	import flash.display.MovieClip;
+	import lime.utils.Log;
+import flash.display.MovieClip;
 	import flash.events.*;
 	import flash.utils.Timer;
 	import flash.text.*;
@@ -29,7 +30,7 @@
 			gamePlayer = new Player();
 
 
-            throw 'fix instance name access';
+            Log.error('fix instance name access');
 			//pDocClass.sunWarning.visible = false;
 			scoreTimer = new Timer(1000, 1);
 			scoreTimer.addEventListener(TimerEvent.TIMER, scoreTimerHandler);
@@ -42,7 +43,7 @@
 			var textFormat:TextFormat = new TextFormat();
 			textFormat.bold = true;
 
-            throw 'fix instance name access';
+            Log.error('fix instance name access');
 			//pDocClass.scoreBox.defaultTextFormat = textFormat;
 			//pDocClass.dotCountBox.defaultTextFormat = textFormat;
 
@@ -55,7 +56,7 @@
 		{
 			seconds++;
 			score += seconds + DotMan.particleCount;
-            throw 'fix instance name access';
+            Log.error('fix instance name access');
 			//pDocClass.scoreBox.text = score;
 
 			//if(!(seconds & pDocClass.SpawnCycle))
@@ -74,7 +75,7 @@
 			pDocClass.removeChild(gamePlayer);
 			Mouse.show();
 
-            throw 'fix instance name access';
+            Log.error('fix instance name access');
 			//pDocClass.playBtn.addEventListener(MouseEvent.MOUSE_DOWN, newGame);
 			//pDocClass.scoreBoxF.text = score;
 			//pDocClass.dotCountBoxF.text = DotMan.particleCount + " ROCKS";

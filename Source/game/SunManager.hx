@@ -1,6 +1,7 @@
 ﻿package game;
 
-	import flash.display.MovieClip;
+	import lime.utils.Log;
+import flash.display.MovieClip;
 	import flash.events.*;
 	import flash.utils.Timer;
 
@@ -51,7 +52,7 @@
 
 			}
 
-            throw 'fix instance name access';
+            Log.error('fix instance name access');
 			//pDocClass.sunWarning.visible = !pDocClass.sunWarning.visible;
 
 		}
