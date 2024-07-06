@@ -28,9 +28,9 @@ jobs:
           # Used to specify the path to a dependency file.
           cache-dependency-path: 'libs.hxml' # optional
 
-      - run: haxelib install libs.hxml --always
+      - run: haxelib install libs.hxml --always --quiet
       - run: haxelib run openfl setup
-      - run: openfl build html5
+      - run: haxelib run openfl build html5
       
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5.0.0
