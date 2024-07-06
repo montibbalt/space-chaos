@@ -1,179 +1,154 @@
 ﻿package game;
 
-	import flash.display.MovieClip;
-	import flash.events.*;
-	import openfl.Lib.getTimer;
+import flash.display.MovieClip;
+import flash.events.*;
+import openfl.Lib.getTimer;
 
-	class DotManager extends MovieClip
-	{
-		public var pDocClass(get, null):GameApp;
-		private var dotsArray:Array<Dot>;
-		private var arrowsArray:Array<TrackingArrow>;
+class DotManager extends MovieClip {
+    public var pDocClass(get, null):GameApp;
 
-		private var INITCOUNT:Int;// = 10;
-		public var particleCount(get, null):Int;// = INITCOUNT;
+    private var dotsArray:Array<Dot>;
+    private var arrowsArray:Array<TrackingArrow>;
 
-		public var ppm(get, null):Float = 200;
-		public var speed(get, null):Float = 1.6 * 0.00028;///(60*60);
-		private var adjustedSpeed:Float;// = speed * ppm;
+    private var INITCOUNT:Int; // = 10;
 
-		private var dx:Float = 0;
-        private var dy:Float = 0;
-		private var angle:Float;
-		var time:Int = getTimer();
+    public var particleCount(get, null):Int; // = INITCOUNT;
 
-		public function new():Void
-		{
-			trace("DotManager Constructor");
-            super();
-		}
+    public var ppm(get, null):Float = 200;
+    public var speed(get, null):Float = 1.6 * 0.00028; ///(60*60);
 
-		public function init_Game(aDocClass:GameApp):Void
-		{
-            adjustedSpeed = speed * ppm;
-			pDocClass = aDocClass;
-			INITCOUNT = pDocClass.ROCKS;
-			dotsArray = new Array();
-			arrowsArray = new Array();
+    private var adjustedSpeed:Float; // = speed * ppm;
 
-			addParticles(INITCOUNT);
+    private var dx:Float = 0;
+    private var dy:Float = 0;
+    private var angle:Float;
+    var time:Int = getTimer();
 
-			this.addEventListener(Event.ENTER_FRAME, update);
-		}
+    public function new():Void {
+        trace("DotManager Constructor");
+        super();
+    }
 
-		public function addParticles(numParts:Int):Void
-		{
+    public function init_Game(aDocClass:GameApp):Void {
+        adjustedSpeed = speed * ppm;
+        pDocClass = aDocClass;
+        INITCOUNT = pDocClass.ROCKS;
+        dotsArray = new Array();
+        arrowsArray = new Array();
 
-			var i:Int = -1;
+        addParticles(INITCOUNT);
 
-			while(++i < numParts)
-			{
-				// I don't like using the new thing here but it won't work otherwise?
-				var temp:Dot = new Dot(this);
-				var temp2:TrackingArrow = new TrackingArrow(temp);
-				pDocClass.addChildAt(temp, 2);
-				pDocClass.addChildAt(temp2, 1);
+        this.addEventListener(Event.ENTER_FRAME, update);
+    }
 
-				dotsArray.push(temp);
-				arrowsArray.push(temp2);
-			}
+    public function addParticles(numParts:Int):Void {
+        var i:Int = -1;
 
-			particleCount += numParts;
-			//trace(particleCount);
-		}
+        while (++i < numParts) {
+            // I don't like using the new thing here but it won't work otherwise?
+            var temp:Dot = new Dot(this);
+            var temp2:TrackingArrow = new TrackingArrow(temp);
+            pDocClass.addChildAt(temp, 2);
+            pDocClass.addChildAt(temp2, 1);
 
-		public function update(anEvent:Event):Void
-		{
+            dotsArray.push(temp);
+            arrowsArray.push(temp2);
+        }
 
-			var i:Int = -1;
-			time = getTimer();
-			while(++i < particleCount)
-			{
-				if(!pDocClass.GameOver)
-				{
-					var temp:Dot = dotsArray[i];
-					dx = temp.x - pDocClass.stage.mouseX;
-					dy = temp.y - pDocClass.stage.mouseY;
+        particleCount += numParts;
+        // trace(particleCount);
+    }
 
-					angle = Math.atan2(dy, dx);
-					/*var absAng:Float = angle > 0.0 ? angle : -angle;
-					var dySin = (((B * angle) + (C * angle * absAng)) * speed * ppm);*/
+    public function update(anEvent:Event):Void {
+        var i:Int = -1;
+        time = getTimer();
+        while (++i < particleCount) {
+            if (!pDocClass.GameOver) {
+                var temp:Dot = dotsArray[i];
+                dx = temp.x - pDocClass.stage.mouseX;
+                dy = temp.y - pDocClass.stage.mouseY;
 
-					temp.dx -= (Math.cos(angle) * adjustedSpeed);
-					temp.dy -= (Math.sin(angle) * adjustedSpeed);
-					//temp.dy -= dySin;
+                angle = Math.atan2(dy, dx);
+                /*var absAng:Float = angle > 0.0 ? angle : -angle;
+                    var dySin = (((B * angle) + (C * angle * absAng)) * speed * ppm); */
 
-					temp.x += temp.dx;
-					temp.y += temp.dy;
+                temp.dx -= (Math.cos(angle) * adjustedSpeed);
+                temp.dy -= (Math.sin(angle) * adjustedSpeed);
+                // temp.dy -= dySin;
 
-					temp.rotation += temp.rotSpeed;
+                temp.x += temp.dx;
+                temp.y += temp.dy;
 
+                temp.rotation += temp.rotSpeed;
 
-					if(temp.visible)
-					{
-						if((dx * dx)+(dy * dy) < 625)
-						{
-							pDocClass.GameOver = true;
-							break;
-						}
-					}
+                if (temp.visible) {
+                    if ((dx * dx) + (dy * dy) < 625) {
+                        pDocClass.GameOver = true;
+                        break;
+                    }
+                }
 
+                if (checkIfOffStage(temp)) {
+                    if (arrowsArray[i].alpha < 1) {
+                        arrowsArray[i].alpha += .125;
+                    }
+                    temp.visible = false; // nice performance boost
+                } else {
+                    if (arrowsArray[i].alpha > 0) {
+                        arrowsArray[i].alpha -= .125;
+                    }
+                    temp.visible = true;
+                }
+                dotsArray[i] = temp;
+            }
+        }
+        if (pDocClass.GameOver) {
+            KillAll();
 
-					if(checkIfOffStage(temp))
-					{
-						if(arrowsArray[i].alpha < 1)
-						{
-							arrowsArray[i].alpha+=.125;
-						}
-						temp.visible = false; // nice performance boost
-					}
-					else
-					{
-						if(arrowsArray[i].alpha > 0)
-						{
-							arrowsArray[i].alpha-=.125;
+            cast(this.parent, GameManager).removeChild(this);
+        }
+        // trace(getTimer() - time);
+    }
 
-						}
-						temp.visible = true;
-					}
-					dotsArray[i] = temp;
-				}
-			}
-			if(pDocClass.GameOver)
-			{
-				KillAll();
+    public function KillAll():Void {
+        cast(this.parent, GameManager).scoreTimer.stop();
 
-				cast (this.parent, GameManager).removeChild(this);
-			}
-			//trace(getTimer() - time);
-		}
+        trace("Removing Dots");
+        while (dotsArray.length > 0) {
+            pDocClass.removeChild(dotsArray[0]);
+            dotsArray.splice(0, 1);
+        }
+        trace("Removing Arrows");
+        while (arrowsArray.length > 0) {
+            pDocClass.removeChild(arrowsArray[0]);
+            arrowsArray.splice(0, 1);
+        }
 
-		public function KillAll():Void
-		{
-			cast (this.parent, GameManager).scoreTimer.stop();
+        this.removeEventListener(Event.ENTER_FRAME, update);
+        pDocClass.gotoAndStop("GameOver");
+    }
 
-			trace("Removing Dots");
-			while(dotsArray.length > 0)
-			{
-				pDocClass.removeChild(dotsArray[0]);
-				dotsArray.splice(0,1);
-			}
-			trace("Removing Arrows");
-			while(arrowsArray.length > 0)
-			{
-				pDocClass.removeChild(arrowsArray[0]);
-				arrowsArray.splice(0,1);
-			}
+    public function checkIfOffStage(dot:Dot):Bool {
+        // Hardcoded bounds cause it's faster :P
+        if (dot.x < -20 || dot.x > 570 || dot.y < -20 || dot.y > 420) {
+            return true;
+        }
+        return false;
+    }
 
-			this.removeEventListener(Event.ENTER_FRAME, update);
-			pDocClass.gotoAndStop("GameOver");
+    public function get_ppm():Float {
+        return ppm;
+    }
 
-		}
+    public function get_speed():Float {
+        return speed;
+    }
 
-		public function checkIfOffStage(dot:Dot):Bool
-		{
-			// Hardcoded bounds cause it's faster :P
-			if(dot.x < -20 || dot.x > 570 || dot.y < -20 || dot.y > 420)
-			{
-				return true;
-			}
-			return false;
-		}
+    public function get_particleCount():Int {
+        return particleCount;
+    }
 
-		public function get_ppm():Float
-		{
-			return ppm;
-		}
-		public function get_speed():Float
-		{
-			return speed;
-		}
-		public function get_particleCount():Int
-		{
-			return particleCount;
-		}
-		public function get_pDocClass():GameApp
-		{
-			return pDocClass;
-		}
-	}
+    public function get_pDocClass():GameApp {
+        return pDocClass;
+    }
+}
