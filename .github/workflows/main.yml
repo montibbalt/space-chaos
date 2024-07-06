@@ -30,7 +30,7 @@ jobs:
 
       - run: haxelib install libs.hxml --always
       - run: haxelib run openfl setup
-      - run: lime build html5
+      - run: openfl build html5
       
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5.0.0
