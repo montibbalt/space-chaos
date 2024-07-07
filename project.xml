@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <project>
 
-	<meta title="SpaceChaos" package="com.sample.spacechaos" version="1.0.0" company="Company Name" />
+	<meta title="SpaceChaos" package="com.sample.spacechaos" version="1.0.0" company="Company Name" background="#000000"/>
 	<app main="Main" path="Export" file="SpaceChaos" background="#000000" />
 
 	<source path="Source" />
@@ -10,6 +10,6 @@
 
 	<assets path="Assets" rename="assets" />
 
-    <library path="game-111208_b.swf" id="fl-lib" preload="true" generate="true" />
+    <library path="Assets/game-111208_b.swf" id="fl-lib" preload="true" generate="true" />
 
 </project>
